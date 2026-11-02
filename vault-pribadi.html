@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#090d1b">
+<title>Vault — PrivateBrankas
+by SisalmanOfficial</title>
+<style>
+:root{--bg:#090d1b;--panel:#121a2d;--panel2:#18233b;--line:#293653;--text:#f4f7ff;--muted:#9ba9c5;--accent:#8b7cff;--accent2:#52d6c5;--danger:#ff647c}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 15% 0%,#28245a 0,transparent 38%),radial-gradient(ellipse at 100% 30%,#103c49 0,transparent 30%),var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;padding:22px}
+button,input{font:inherit}
+.wrap{width:min(100%,920px);margin:32px auto}
+.brand{display:flex;align-items:center;gap:12px;margin-bottom:22px}
+.logo{width:48px;height:48px;border-radius:16px;display:grid;place-items:center;background:linear-gradient(135deg,var(--accent),#4ecfc4);font-size:24px;box-shadow:0 8px 30px #7566ff44}
+.brand h1{font-size:20px;margin:0;letter-spacing:.3px}.brand p{margin:3px 0 0;color:var(--muted);font-size:12px}
+.panel{background:linear-gradient(160deg,#17213aee,#10182aee);border:1px solid #ffffff16;border-radius:24px;padding:clamp(20px,5vw,34px);box-shadow:0 25px 80px #0006;backdrop-filter:blur(14px)}
+.center{max-width:430px;margin:5vh auto;text-align:center}
+.lock{font-size:42px;margin:8px 0 14px}
+h2{font-size:25px;margin:0 0 9px} .sub{color:var(--muted);line-height:1.6;font-size:14px;margin:0 0 22px}
+.field{width:100%;padding:15px 16px;border-radius:13px;border:1px solid var(--line);background:#0b1222;color:var(--text);outline:none;margin:7px 0}
+.field:focus{border-color:var(--accent);box-shadow:0 0 0 3px #8b7cff22}
+.btn{border:0;border-radius:13px;padding:13px 17px;font-weight:750;cursor:pointer;transition:.18s}
+.btn:active{transform:scale(.98)}
+.primary{width:100%;color:white;background:linear-gradient(110deg,#8274ff,#4cbfb9);box-shadow:0 9px 24px #7668ff33}
+.secondary{background:#25314d;color:#eaf0ff;border:1px solid #ffffff12}
+.danger{background:#3c2030;color:#ff9bab;border:1px solid #ff647c33}
+.note{font-size:12px;color:var(--muted);line-height:1.6;margin-top:18px}
+.hidden{display:none!important}
+.top{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}
+.top h2{font-size:24px}.top p{margin:5px 0;color:var(--muted);font-size:13px}
+.actions{display:flex;gap:9px;flex-wrap:wrap}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:22px 0}
+.stat{padding:15px;border:1px solid #ffffff12;background:#0e1729;border-radius:16px}
+.stat strong{display:block;font-size:22px}.stat span{font-size:11px;color:var(--muted)}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:20px 0}
+.toolbar .field{flex:1;min-width:150px;margin:0}
+.upload{position:relative;overflow:hidden}.upload input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:13px}
+.item{min-width:0;background:#0b1425;border:1px solid #ffffff12;border-radius:16px;padding:9px;overflow:hidden}
+.preview{height:135px;background:#1a2740;border-radius:11px;display:grid;place-items:center;overflow:hidden;color:#aab7d2;font-size:36px}
+.preview img,.preview video{width:100%;height:100%;object-fit:cover}
+.filename{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin:10px 2px 8px}
+.item .btn{width:100%;padding:9px;font-size:12px}
+.empty{padding:42px 15px;text-align:center;border:1px dashed #3b4968;border-radius:18px;color:var(--muted)}
+.empty .big{font-size:36px;margin-bottom:10px}
+.status{font-size:12px;color:var(--muted);min-height:18px;margin-top:10px}
+footer{text-align:center;color:#71809f;font-size:11px;margin:18px 0}
+#viewer{position:fixed;inset:0;background:#050812ed;z-index:5;display:grid;place-items:center;padding:18px}
+.viewerbox{width:min(100%,900px);max-height:92vh;background:#111a2d;border:1px solid #ffffff22;border-radius:18px;padding:12px;display:flex;flex-direction:column;gap:10px}
+.viewerhead{display:flex;justify-content:space-between;align-items:center;gap:10px}
+#viewerMedia{max-width:100%;max-height:76vh;object-fit:contain;align-self:center}
+@media(max-width:560px){body{padding:14px}.wrap{margin:12px auto}.stats{gap:7px}.stat{padding:12px}.stat strong{font-size:19px}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.top h2{font-size:21px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand"><div class="logo">🔐</div><div><h1>VAULT PRIBADI</h1><p>Ruang aman untuk foto dan video kamu</p></div></div>
+
+  <section id="auth" class="panel center">
+    <div class="lock">🛡️</div>
+    <h2 id="authTitle">Buat brankas pribadi</h2>
+    <p class="sub" id="authDesc">Buat kata sandi utama. File akan dienkripsi sebelum disimpan di perangkat ini.</p>
+    <input class="field" id="pass" type="password" autocomplete="current-password" placeholder="Kata sandi utama">
+    <input class="field hidden" id="confirm" type="password" autocomplete="new-password" placeholder="Ulangi kata sandi">
+    <button class="btn primary" id="authBtn">BUAT BRANKAS</button>
+    <div class="status" id="authStatus"></div>
+    <p class="note">Penting: kata sandi tidak bisa dipulihkan. Jika lupa, file terenkripsi tidak dapat dibuka. Simpan kata sandi di tempat aman.</p>
+  </section>
+
+  <section id="vault" class="panel hidden">
+    <div class="top">
+      <div><h2>Brankas Saya ✨</h2><p>Semua file dienkripsi di perangkat ini.</p></div>
+      <div class="actions"><button class="btn secondary" id="lockBtn">🔒 Kunci</button></div>
+    </div>
+    <div class="stats">
+      <div class="stat"><strong id="totalCount">0</strong><span>Total file</span></div>
+      <div class="stat"><strong id="photoCount">0</strong><span>Foto</span></div>
+      <div class="stat"><strong id="videoCount">0</strong><span>Video</span></div>
+    </div>
+    <div class="toolbar">
+      <label class="btn primary upload">＋ Tambah file<input id="files" type="file" accept="image/*,video/*" multiple></label>
+      <input class="field" id="search" placeholder="Cari nama file...">
+    </div>
+    <div class="status" id="vaultStatus"></div>
+    <div id="gallery" class="grid"></div>
+  </section>
+  <footer>VAULT • Penyimpanan lokal terenkripsi • Tidak mengunggah file ke server</footer>
+</div>
+
+<div id="viewer" class="hidden">
+  <div class="viewerbox">
+    <div class="viewerhead"><strong id="viewerName">Pratinjau</strong><button class="btn secondary" id="closeViewer">Tutup ✕</button></div>
+    <div id="viewerContent"></div>
+  </div>
+</div>
+
+<script>
+"use strict";
+const DB_NAME="VaultPrivateDB", STORE="files", META="meta", ITERATIONS=250000;
+let db=null, cryptoKey=null, unlocked=false, objectUrls=[];
+const $=id=>document.getElementById(id);
+function status(id,msg){$(id).textContent=msg}
+function openDB(){
+ return new Promise((resolve,reject)=>{
+  const req=indexedDB.open(DB_NAME,1);
+  req.onupgradeneeded=()=>{const d=req.result;if(!d.objectStoreNames.contains(STORE))d.createObjectStore(STORE,{keyPath:"id",autoIncrement:true});if(!d.objectStoreNames.contains(META))d.createObjectStore(META)};
+  req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error);
+ });
+}
+function tx(store,mode,action){
+ return new Promise((resolve,reject)=>{
+  const t=db.transaction(store,mode),s=t.objectStore(store);let req=action(s);
+  if(req){req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error)}
+  else{t.oncomplete=()=>resolve();t.onerror=()=>reject(t.error)}
+ });
+}
+function getMeta(key){return tx(META,"readonly",s=>s.get(key))}
+function putMeta(key,value){return tx(META,"readwrite",s=>s.put(value,key))}
+function deriveKey(password,salt){
+ return crypto.subtle.importKey("raw",new TextEncoder().encode(password),"PBKDF2",false,["deriveKey"]).then(base=>crypto.subtle.deriveKey({name:"PBKDF2",salt,iterations:ITERATIONS,hash:"SHA-256"},base,{name:"AES-GCM",length:256},false,["encrypt","decrypt"]));
+}
+function randomBytes(n){return crypto.getRandomValues(new Uint8Array(n))}
+async function setupOrLogin(){
+ const password=$("pass").value, confirm=$("confirm").value;
+ if(password.length<6){status("authStatus","Kata sandi minimal 6 karakter.");return}
+ $("authBtn").disabled=true;status("authStatus","Memproses...");
+ try{
+  const salt=await getMeta("salt");
+  if(!salt){
+   if(password!==confirm){status("authStatus","Konfirmasi kata sandi tidak cocok.");return}
+   const newSalt=randomBytes(16),key=await deriveKey(password,newSalt),checkIv=randomBytes(12);
+   const check=await crypto.subtle.encrypt({name:"AES-GCM",iv:checkIv},key,new TextEncoder().encode("vault-ok"));
+   await putMeta("salt",newSalt);await putMeta("check",{iv:checkIv,data:check});
+   cryptoKey=key;
+  }else{
+   const key=await deriveKey(password,salt),check=await getMeta("check");
+   try{
+    const plain=await crypto.subtle.decrypt({name:"AES-GCM",iv:check.iv},key,check.data);
+    if(new TextDecoder().decode(plain)!=="vault-ok")throw Error();
+   }catch(e){status("authStatus","Kata sandi salah.");return}
+   cryptoKey=key;
+  }
+  unlocked=true;$("auth").classList.add("hidden");$("vault").classList.remove("hidden");$("pass").value="";$("confirm").value="";await render();
+ }catch(e){status("authStatus","Gagal membuka penyimpanan. Coba gunakan browser lain.");console.error(e)}
+ finally{$("authBtn").disabled=false}
+}
+async function addFiles(fileList){
+ const files=[...fileList].filter(f=>f.type.startsWith("image/")||f.type.startsWith("video/"));
+ if(!files.length){status("vaultStatus","Pilih file foto atau video.");return}
+ for(let i=0;i<files.length;i++){
+  const f=files[i];status("vaultStatus",`Mengenkripsi ${i+1}/${files.length}: ${f.name}`);
+  try{
+   const iv=randomBytes(12),plain=await f.arrayBuffer();
+   const encrypted=await crypto.subtle.encrypt({name:"AES-GCM",iv},cryptoKey,plain);
+   await tx(STORE,"readwrite",s=>s.add({name:f.name,type:f.type,size:f.size,iv,data:encrypted,created:Date.now()}));
+  }catch(e){status("vaultStatus",`Gagal menyimpan ${f.name}. Mungkin ruang penyimpanan tidak cukup.`)}
+ }
+ $("files").value="";status("vaultStatus","Selesai. File sudah dienkripsi.");await render();
+}
+async function getAll(){return tx(STORE,"readonly",s=>s.getAll())}
+async function render(){
+ objectUrls.forEach(URL.revokeObjectURL);objectUrls=[];
+ const items=await getAll(),q=$("search").value.toLowerCase();
+ $("totalCount").textContent=items.length;
+ $("photoCount").textContent=items.filter(x=>x.type.startsWith("image/")).length;
+ $("videoCount").textContent=items.filter(x=>x.type.startsWith("video/")).length;
+ const gallery=$("gallery");gallery.innerHTML="";
+ const shown=items.filter(x=>x.name.toLowerCase().includes(q));
+ if(!shown.length){gallery.innerHTML='<div class="empty" style="grid-column:1/-1"><div class="big">🗂️</div><strong>Brankas masih kosong</strong><p>Tambahkan foto atau video untuk mulai menyimpan.</p></div>';return}
+ for(const item of shown){
+  const card=document.createElement("div");card.className="item";
+  const preview=document.createElement("div");preview.className="preview";preview.textContent=item.type.startsWith("video/")?"🎬":"🖼️";
+  const name=document.createElement("div");name.className="filename";name.textContent=item.name;name.title=item.name;
+  const view=document.createElement("button");view.className="btn secondary";view.textContent="Lihat";
+  view.onclick=()=>openViewer(item);
+  const del=document.createElement("button");del.className="btn danger";del.style.marginTop="7px";del.textContent="Hapus";
+  del.onclick=async()=>{if(confirm("Hapus file "+item.name+" dari brankas?")){await tx(STORE,"readwrite",s=>s.delete(item.id));await render()}};
+  card.append(preview,name,view,del);gallery.append(card);
+ }
+}
+async function openViewer(item){
+ try{
+  const plain=await crypto.subtle.decrypt({name:"AES-GCM",iv:item.iv},cryptoKey,item.data);
+  const blob=new Blob([plain],{type:item.type}),url=URL.createObjectURL(blob);objectUrls.push(url);
+  $("viewerName").textContent=item.name;$("viewerContent").innerHTML="";
+  let el;
+  if(item.type.startsWith("video/")){el=document.createElement("video");el.controls=true;el.autoplay=true}
+  else{el=document.createElement("img")}
+  el.id="viewerMedia";el.src=url;$("viewerContent").append(el);$("viewer").classList.remove("hidden");
+ }catch(e){alert("File tidak bisa dibuka. Kata sandi atau data mungkin bermasalah.")}
+}
+function lockVault(){
+ unlocked=false;cryptoKey=null;objectUrls.forEach(URL.revokeObjectURL);objectUrls=[];
+ $("viewer").classList.add("hidden");$("vault").classList.add("hidden");$("auth").classList.remove("hidden");
+ $("authTitle").textContent="Brankas terkunci";$("authDesc").textContent="Masukkan kata sandi utama untuk membuka brankas.";
+ $("confirm").classList.add("hidden");$("authBtn").textContent="BUKA BRANKAS";$("authStatus").textContent="";$("pass").value="";
+}
+(async()=>{
+ try{
+  if(!window.crypto?.subtle||!window.indexedDB){status("authStatus","Browser tidak mendukung enkripsi atau penyimpanan. Coba Chrome terbaru melalui HTTPS.");return}
+  db=await openDB();
+  const salt=await getMeta("salt");
+  if(salt){$("authTitle").textContent="Selamat datang kembali";$("authDesc").textContent="Masukkan kata sandi untuk membuka brankas terenkripsi.";$("authBtn").textContent="BUKA BRANKAS";$("confirm").classList.add("hidden")}
+  else{$("confirm").classList.remove("hidden")}
+ }catch(e){status("authStatus","Tidak dapat membuka database browser.")}
+})();
+$("authBtn").addEventListener("click",setupOrLogin);
+$("pass").addEventListener("keydown",e=>{if(e.key==="Enter")setupOrLogin()});
+$("confirm").addEventListener("keydown",e=>{if(e.key==="Enter")setupOrLogin()});
+$("files").addEventListener("change",e=>addFiles(e.target.files));
+$("search").addEventListener("input",render);
+$("lockBtn").addEventListener("click",lockVault);
+$("closeViewer").addEventListener("click",()=>{$("viewer").classList.add("hidden");$("viewerContent").innerHTML=""});
+</script>
+</body>
+</html>
